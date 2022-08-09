@@ -26,10 +26,20 @@ comment
 
   /// for all kind of numbers
   num randomNum = 1000;
-  randomNum = 12.22;
+  randomNum = 12.233323;
+  randomNum.floor();
 
   String name = "Bibek";
   name = 'John';
+  String multiLine = '''$name  ${randomNum.floor()} this 
+  is  
+  a 
+  multiline 
+  string
+  ''';
+
+  print(multiLine);
+
   print(name.toUpperCase());
 
 // bool
