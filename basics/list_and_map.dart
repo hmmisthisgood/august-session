@@ -64,6 +64,21 @@ main() {
   person.remove("image");
 
   person.clear();
+
+  final tempIterable = names.map(
+    (name) {
+      return "My name is $name";
+    },
+  );
+
+  final transformedNames = tempIterable.toList();
+
+  print(transformedNames);
+
+  // person.map((key, value) {
+  // });
+
+  // map() available in List, Map
 }
 
 /// List , Set , Map
