@@ -12,7 +12,7 @@ class User {
 
   int id;
   String name;
-  String password;
+  String _password;
   String dob;
   String bio;
 
@@ -30,12 +30,13 @@ class User {
   //   this.bio = bio;
   // }
 
-  User(
-      {required this.id,
-      required this.name,
-      required this.bio,
-      required this.dob,
-      required this.password});
+  User({
+    required this.id,
+    required this.name,
+    required this.bio,
+    required this.dob,
+    required String pass,
+  }) : this._password = pass;
 
   /// mehtods or functions: what it does
 
@@ -45,15 +46,29 @@ class User {
 
   logout() {}
   createPost() {}
+
+  _privateFunc() {}
+
+  String getPassword() {
+    return _password;
+  }
+
+  setPassword(String newPassword) {
+    _password = newPassword;
+  }
+
+  String get password => _password;
+
+  set password(String newPassword) => _password = newPassword;
 }
 
 void main(List<String> args) {
-  var bibek = new User(
+  var bibek = User(
     id: 100,
     name: "Bibek bro",
     bio: "xaina",
     dob: '',
-    password: '',
+    pass: 'secret should not be visible',
   );
 
   bibek.name = "not bibek";
@@ -61,16 +76,14 @@ void main(List<String> args) {
 
   print(bibek.name);
 
+  print(bibek._password);
+
   bibek.login();
   bibek.logout();
 
   /// User();  is a default constructor
   var arjun = new User(
-      id: 111,
-      name: "no name",
-      password: "stong",
-      dob: "2022",
-      bio: "xaina"); //
+      id: 111, name: "no name", pass: "stong", dob: "2022", bio: "xaina"); //
   arjun.login();
   arjun.logout();
 }
