@@ -12,6 +12,8 @@ num addNumbers(num first, num second) {
   return sum;
 }
 
+// num
+// num?
 double divide({required num number, required num divider}) {
   final result = number / divider;
   print(result);

@@ -30,8 +30,8 @@ main() {
 
   /// for in
 
-  for (String item in names) {
-    print(item);
+  for (String i in names) {
+    print(i);
   }
 
   /// forEach
