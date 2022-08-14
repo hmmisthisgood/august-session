@@ -76,6 +76,14 @@ class SuperPowerfulAdmin extends Admin {
   removeModerator() {
     print("$name remove moderator");
   }
+
+  @override
+  login() {
+    // super admin login logic
+    super.login();
+
+    ///
+  }
 }
 
 class NormalUser extends User {
