@@ -5,7 +5,8 @@
 // StatefulWidget
 
 import 'package:flutter/material.dart';
-import 'screen/homepage.dart';
+
+import 'screen/row_and_column.dart';
 
 // import 'package:first_app/screen/homepage.dart';
 
@@ -18,7 +19,7 @@ class OurApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: "Our app",
-      home: Homepage(),
+      home: RowAndColumn(),
     );
   }
 }
