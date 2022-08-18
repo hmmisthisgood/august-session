@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 
+import 'screen/insta_post.dart';
 import 'screen/row_and_column.dart';
 
 // import 'package:first_app/screen/homepage.dart';
@@ -18,9 +19,9 @@ class OurApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: "Our app",
-      home: RowAndColumn(),
-    );
+        title: "Our app",
+        theme: ThemeData(primarySwatch: Colors.purple),
+        home: InstaPost());
   }
 }
 

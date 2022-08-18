@@ -49,12 +49,12 @@ class RowAndColumn extends StatelessWidget {
 
             Row(
               children: [
-                Flexible(
-                    // flex: 3,
+                Expanded(
+                    flex: 2,
                     child: Container(
-                  color: Colors.yellow,
-                  child: Text("Not big"),
-                )
+                      color: Colors.yellow,
+                      child: Text("Not big"),
+                    )
                     // Container(color: Colors.red, height: 70),
                     ),
                 Expanded(
@@ -62,6 +62,10 @@ class RowAndColumn extends StatelessWidget {
                   child: Container(color: Colors.black, height: 70),
                 ),
               ],
+            ),
+            Container(
+              color: Colors.grey,
+              height: 700,
             )
           ],
         ));
