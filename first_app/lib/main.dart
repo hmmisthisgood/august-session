@@ -4,6 +4,7 @@
 // StatelessWidget
 // StatefulWidget
 
+import 'package:first_app/screen/posts_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'screen/insta_post.dart';
@@ -20,8 +21,10 @@ class OurApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: "Our app",
-        theme: ThemeData(primarySwatch: Colors.purple),
-        home: InstaPost());
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+        ),
+        home: PostsScreen());
   }
 }
 
