@@ -149,7 +149,7 @@ class PostsScreen extends StatelessWidget {
   }
 
   Widget buildWithListViewBuilder() {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: postsList.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
@@ -157,8 +157,10 @@ class PostsScreen extends StatelessWidget {
         final post = postsList[index];
         // post['username'] = post["username"].toString().toUpperCase();
         // print(post['username']);
-
         return IgPost(postData: post);
+      },
+      separatorBuilder: (context, index) {
+        return Divider(thickness: 5, color: Colors.grey);
       },
     );
   }
@@ -176,5 +178,6 @@ class PostsScreen extends StatelessWidget {
 
 /// ListView 
 /// ListView.builder 
+/// ListView.separated
 /// 
 /// SafeArea

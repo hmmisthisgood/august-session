@@ -7,6 +7,9 @@ class IgHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -41,7 +44,12 @@ class IgHomePage extends StatelessWidget {
 
             /// actual post image
             ///
-            Image.network(image),
+            Image.network(
+              image,
+              width: width,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
             //// like comment share buttons
 
             Padding(

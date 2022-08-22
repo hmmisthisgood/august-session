@@ -15,6 +15,9 @@ class IgPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHHeight = MediaQuery.of(context).size.height;
+
     print("Ig post build");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +50,12 @@ class IgPost extends StatelessWidget {
 
         /// actual post image
         ///
-        Image.network(postData["postImageUrl"]),
+        Image.network(
+          postData["postImageUrl"],
+          width: screenWidth,
+          height: screenHHeight * 0.4,
+          fit: BoxFit.cover,
+        ),
         //// like comment share buttons
 
         Padding(

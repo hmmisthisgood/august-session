@@ -4,6 +4,8 @@
 // StatelessWidget
 // StatefulWidget
 
+import 'package:first_app/screen/gridview_screen.dart';
+
 import 'package:first_app/screen/posts_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,11 +22,12 @@ class OurApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: "Our app",
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-        ),
-        home: PostsScreen());
+      title: "Our app",
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
+      home: GridViewScreen(),
+    );
   }
 }
 
