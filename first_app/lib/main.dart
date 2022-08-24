@@ -1,16 +1,9 @@
 // import 'package:flutter/material.dart';
 
-// Widget
-// StatelessWidget
-// StatefulWidget
-
-import 'package:first_app/screen/gridview_screen.dart';
-
-import 'package:first_app/screen/posts_screen.dart';
+import 'package:first_app/screen/page_view_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screen/insta_post.dart';
-import 'screen/row_and_column.dart';
+import 'screen/stack_screen.dart';
 
 // import 'package:first_app/screen/homepage.dart';
 
@@ -26,7 +19,7 @@ class OurApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: GridViewScreen(),
+      home: PageViewScreen(),
     );
   }
 }
