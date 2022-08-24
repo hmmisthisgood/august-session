@@ -1,6 +1,7 @@
 // import 'package:flutter/material.dart';
 
 import 'package:first_app/screen/page_view_screen.dart';
+import 'package:first_app/screen/tiktok_skeleton.dart';
 import 'package:flutter/material.dart';
 
 import 'screen/stack_screen.dart';
@@ -19,7 +20,7 @@ class OurApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: PageViewScreen(),
+      home: TikTokSkeleton(),
     );
   }
 }
