@@ -14,9 +14,30 @@ class TikTokSkeleton extends StatelessWidget {
       body: Stack(
         children: [
           /// background
+          Image.network(
+            Constants.image1,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
 
-          Image.network(Constants.image1,
-              height: double.infinity, fit: BoxFit.cover),
+          FadeInImage(
+            placeholder: AssetImage("assets/images/pool.jpg"),
+            image: NetworkImage(Constants.image1),
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            alignment: Alignment.centerLeft,
+          ),
+
+          // Image.asset(
+          //   "assets/images/pool.jpg",
+          //   height: double.infinity,
+          //   width: double.infinity,
+          //   fit: BoxFit.cover,
+          //   alignment: Alignment.centerLeft,
+          // ),
+
+          /// follow/following bar
           Positioned(
             top: 50,
             left: 100,
@@ -27,6 +48,7 @@ class TikTokSkeleton extends StatelessWidget {
             ),
           ),
 
+          /// captions and username
           Positioned(
             bottom: 0,
             child: Container(
@@ -35,6 +57,8 @@ class TikTokSkeleton extends StatelessWidget {
               color: Colors.purple,
             ),
           ),
+
+          //// vertical controls
           Positioned(
             bottom: 0,
             right: 0,
@@ -49,3 +73,8 @@ class TikTokSkeleton extends StatelessWidget {
     );
   }
 }
+
+// Image providers: 
+// AssetImage 
+// NetworkImage
+// FileImage

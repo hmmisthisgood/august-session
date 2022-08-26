@@ -178,7 +178,10 @@ class GridViewScreen extends StatelessWidget {
                 child: Icon(app['icon'], size: 35, color: Colors.white),
               ),
               SizedBox(height: 5),
-              Text(app["name"]),
+              Text(
+                app["name"],
+                style: TextStyle(fontWeight: FontWeight.w300),
+              ),
             ],
           ),
         );
