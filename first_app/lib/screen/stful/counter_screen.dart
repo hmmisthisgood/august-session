@@ -5,7 +5,9 @@ class CounterScreen extends StatefulWidget {
   final String screenTitle;
 
   @override
-  State<CounterScreen> createState() => _CounterScreenState();
+  State<StatefulWidget> createState() {
+    return _CounterScreenState();
+  }
 }
 
 class _CounterScreenState extends State<CounterScreen> {
