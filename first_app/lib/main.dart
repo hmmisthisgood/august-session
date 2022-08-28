@@ -1,12 +1,9 @@
 // import 'package:flutter/material.dart';
 
-import 'package:first_app/screen/gridview_screen.dart';
-import 'package:first_app/screen/page_view_screen.dart';
-import 'package:first_app/screen/tiktok_skeleton.dart';
+import 'package:first_app/screen/stful/counter_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screen/stack_screen.dart';
-import 'screen/tabview_screen.dart';
+import 'screen/dashboard_screen.dart';
 
 // import 'package:first_app/screen/homepage.dart';
 
@@ -23,7 +20,7 @@ class OurApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         fontFamily: "Oswald",
       ),
-      home: GridViewScreen(),
+      home: CounterScreen(),
     );
   }
 }
