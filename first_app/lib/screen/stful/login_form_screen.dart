@@ -13,17 +13,56 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreen extends State {
   bool hidePassword = true;
   int count = 11;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final emailController = TextEditingController(text: "test@test.com");
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("login")),
       body: Form(
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              TextField(
-                enabled: false,
+              TextFormField(
+                controller: emailController,
+                // enabled: false,
+
+                keyboardType: TextInputType.emailAddress,
+
+                onFieldSubmitted: (data) {
+                  print("-------on submitted called-------");
+                  print(data);
+                },
+                onChanged: (val) {
+                  // print(val);
+                },
+
+                validator: (val) {
+                  if (val == null) {
+                    return "Email is required";
+                  }
+
+                  if (val.contains("@") == false) {
+                    return "Email must be valid";
+                  }
+                },
+
+                // autofocus: true,
+                textInputAction: TextInputAction.send,
                 decoration: InputDecoration(
                   hintText: "Enter you email",
                   labelText: "Email",
@@ -42,7 +81,17 @@ class _LoginScreen extends State {
                 ),
               ),
               TextFormField(
+                controller: passwordController,
                 obscureText: hidePassword,
+                validator: (val) {
+                  if (val == null) {
+                    return "Password is required";
+                  }
+
+                  if (val.length < 5) {
+                    return "Password must be more than 5 characters";
+                  }
+                },
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: InkWell(
@@ -58,6 +107,30 @@ class _LoginScreen extends State {
                       ),
                     )),
               ),
+              SizedBox(height: 20),
+              MaterialButton(
+                onPressed: () {
+                  if (formKey.currentState != null) {
+                    formKey.currentState!.save();
+
+                    bool isValid = formKey.currentState!.validate();
+
+                    final _email = emailController.text;
+                    final _paass = passwordController.text;
+                    print(_email);
+                    print(_paass);
+
+                    // emailController.clear();
+                    emailController.text = "I am setting custom text";
+                    passwordController.clear();
+                  }
+                },
+                color: Colors.blue,
+                child: Text(
+                  "SIGN IN",
+                  style: TextStyle(color: Colors.white, letterSpacing: 2),
+                ),
+              )
             ],
           ),
         ),
@@ -69,8 +142,8 @@ class _LoginScreen extends State {
 // condition? fist: second
 
 /// widgets:
-/// Form 
-/// TextField 
+/// Form
+/// TextField
 /// TextFormField
 
 // InputDecoration
