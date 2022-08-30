@@ -1,9 +1,10 @@
 // import 'package:flutter/material.dart';
 
-import 'package:first_app/screen/stful/counter_screen.dart';
+import 'package:first_app/navigation/routes.dart';
+import 'package:first_app/screen/navigation_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screen/dashboard_screen.dart';
+import 'navigation/custom_route_generator.dart';
 import 'screen/stful/login_form_screen.dart';
 
 // import 'package:first_app/screen/homepage.dart';
@@ -21,7 +22,9 @@ class OurApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         fontFamily: "Oswald",
       ),
-      home: LoginScreen(),
+      onGenerateRoute: customRouteGenerator,
+      // home: NavigationScreen(),
+      initialRoute: Routes.nav,
     );
   }
 }

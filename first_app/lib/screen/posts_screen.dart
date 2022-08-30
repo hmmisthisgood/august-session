@@ -1,3 +1,4 @@
+import 'package:first_app/screen/insta_post.dart';
 import 'package:first_app/widget/ig_post.dart';
 import 'package:flutter/material.dart';
 
@@ -157,7 +158,19 @@ class PostsScreen extends StatelessWidget {
         final post = postsList[index];
         // post['username'] = post["username"].toString().toUpperCase();
         // print(post['username']);
-        return IgPost(postData: post);
+        return GestureDetector(
+          onHorizontalDragStart: (details) {
+            print("dragging vertically");
+            Navigator.pop(context);
+          },
+          onTap: () {
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (_) => IgHomePage()));
+
+            Navigator.pop(context);
+          },
+          child: IgPost(postData: post),
+        );
       },
       separatorBuilder: (context, index) {
         return Divider(thickness: 5, color: Colors.grey);
@@ -167,10 +180,16 @@ class PostsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(),
-      body: SafeArea(
-        child: buildWithListViewBuilder(),
+    return WillPopScope(
+      onWillPop: () {
+        print("back button pressed");
+        return Future.value(true);
+      },
+      child: Scaffold(
+        // appBar: AppBar(),
+        body: SafeArea(
+          child: buildWithListViewBuilder(),
+        ),
       ),
     );
   }
