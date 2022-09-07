@@ -30,4 +30,11 @@ class User {
   final Company company;
 
   User({required this.address, required this.company});
+
+  static User convertToUser(Map json) {
+    return User(
+      address: Address.convertToAddress(json['address']), // Map
+      company: json['company'],
+    );
+  }
 }
