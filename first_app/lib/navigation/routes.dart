@@ -3,4 +3,5 @@ class Routes {
   static const nav = "/navScreen";
   static const pageview = "/pageView";
   static const instaHome = "/istaHome";
+  static const splash = '/splash';
 }

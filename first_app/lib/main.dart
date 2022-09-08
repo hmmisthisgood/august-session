@@ -1,11 +1,10 @@
 // import 'package:flutter/material.dart';
 
-import 'package:first_app/navigation/routes.dart';
 import 'package:first_app/screen/navigation_screen.dart';
+import 'package:first_app/screen/stful/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'navigation/custom_route_generator.dart';
-import 'screen/stful/login_form_screen.dart';
 
 // import 'package:first_app/screen/homepage.dart';
 
@@ -23,8 +22,8 @@ class OurApp extends StatelessWidget {
         fontFamily: "Oswald",
       ),
       onGenerateRoute: customRouteGenerator,
-      // home: NavigationScreen(),
-      initialRoute: Routes.nav,
+      home: SplashScreen(),
+      // initialRoute: Routes.splash,
     );
   }
 }

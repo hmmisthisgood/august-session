@@ -2,6 +2,7 @@
 // login = sign in : you already have account
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widget/common_textfield_widget.dart';
 
@@ -115,7 +116,7 @@ class _LoginScreen extends State {
             CommonTextField(controller: emailController),
             SizedBox(height: 20),
             MaterialButton(
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState != null) {
                   formKey.currentState!.save();
 
@@ -129,6 +130,19 @@ class _LoginScreen extends State {
                   // emailController.clear();
                   emailController.text = "I am setting custom text";
                   passwordController.clear();
+
+                  if (isValid) {
+                    /// send data to server for chekcing
+
+                    // if login successful
+                    final instance = await SharedPreferences.getInstance();
+
+                    instance.setBool("isLoggedIn", true);
+                    // Navigator.push(context, route)
+                  }
+
+                  // final isLoggedIn = instance.getBool("isLoggedIn");
+                  // print("is user logged in: $isLoggedIn");
                 }
               },
               color: Colors.blue,
@@ -154,4 +168,3 @@ class _LoginScreen extends State {
 // InputDecoration
 
 /// GlobalKey
-
