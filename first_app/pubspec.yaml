@@ -13,6 +13,7 @@ dependencies:
 
   ## ui packages
   google_fonts: ^3.0.1
+  flutter_vector_icons: 
 
   # data persistence
   shared_preferences: ^2.0.15

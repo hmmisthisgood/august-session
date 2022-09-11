@@ -1,6 +1,7 @@
 // sign up = register :you create account for the first time
 // login = sign in : you already have account
 
+import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -135,9 +136,10 @@ class _LoginScreen extends State {
                     /// send data to server for chekcing
 
                     // if login successful
-                    final instance = await SharedPreferences.getInstance();
 
-                    instance.setBool("isLoggedIn", true);
+                    SharedPref.setUserLoggedIn(true);
+                    // instance.setString("somedata", "");
+
                     // Navigator.push(context, route)
                   }
 

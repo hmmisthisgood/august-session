@@ -1,4 +1,6 @@
+import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../navigation/routes.dart';
@@ -19,19 +21,23 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   checkUserLoggedInStatus() async {
-    final instance = await SharedPreferences.getInstance();
+    bool isLoggedIn = await SharedPref.getIsUserLoggedIn();
 
-    bool isLoggedIn = instance.getBool("isLoggedIn") ?? false;
-
-    if (isLoggedIn == true) {
-      Navigator.pushNamed(context, Routes.instaHome);
-    } else {
-      Navigator.pushNamed(context, Routes.login);
-    }
+    Future.delayed(Duration(seconds: 2), () {
+      if (isLoggedIn == true) {
+        Navigator.pushNamed(context, Routes.instaHome);
+      } else {
+        Navigator.pushNamed(context, Routes.login);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Icon(FontAwesome.google),
+      ),
+    );
   }
 }
