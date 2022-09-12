@@ -1,9 +1,8 @@
+import 'package:first_app/navigation/routes.dart';
+import 'package:first_app/util/db_service.dart';
 import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../navigation/routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     checkUserLoggedInStatus();
+    DbService.initOurCoolDatabase();
   }
 
   checkUserLoggedInStatus() async {
@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(Duration(seconds: 2), () {
       if (isLoggedIn == true) {
-        Navigator.pushNamed(context, Routes.instaHome);
+        Navigator.pushNamed(context, Routes.notesList);
       } else {
         Navigator.pushNamed(context, Routes.login);
       }

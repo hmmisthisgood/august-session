@@ -6,6 +6,7 @@ import 'package:first_app/screen/stful/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'navigation/custom_route_generator.dart';
+import 'navigation/routes.dart';
 
 // import 'package:first_app/screen/homepage.dart';
 
@@ -23,8 +24,8 @@ class OurApp extends StatelessWidget {
         fontFamily: "Oswald",
       ),
       onGenerateRoute: customRouteGenerator,
-      home: NotesScreen(),
-      // initialRoute: Routes.splash,
+      // home: NotesScreen(),
+      initialRoute: Routes.splash,
     );
   }
 }

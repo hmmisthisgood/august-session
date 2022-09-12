@@ -131,6 +131,7 @@ class _LoginScreen extends State {
                   // emailController.clear();
                   emailController.text = "I am setting custom text";
                   passwordController.clear();
+                  SharedPref.setUserLoggedIn(true);
 
                   if (isValid) {
                     /// send data to server for chekcing

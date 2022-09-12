@@ -1,6 +1,6 @@
+import 'package:first_app/util/db_service.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:jiffy/jiffy.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({Key? key}) : super(key: key);
@@ -10,89 +10,34 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  int _version = 1;
-  late Database ourDb;
   List notes = [];
+  final titleController = TextEditingController();
+  final bodyController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    initOurCoolDatabase();
+    getNotes();
   }
 
-  initOurCoolDatabase() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final path = dir.path;
-
-    final dbPath = path + "/app.db";
-
-    print(path);
-
-    ourDb = await openDatabase(
-      dbPath,
-      version: _version,
-      onConfigure: (db) async {
-        final String createNotesTable = '''
-CREATE TABLE IF NOT EXISTS notes(
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title VARCHAR(100),
-  body TEXT, 
-  createdAt VARCHAR,
-  updatedAt VARCHAR
-);
-''';
-
-        print(createNotesTable);
-        try {
-          await db.execute(createNotesTable);
-        } catch (e, s) {
-          print(e);
-          print(s);
-        }
-      },
-      onCreate: (db, version) {},
-      onUpgrade: (db, oldVersion, newVersion) {},
-      onDowngrade: (db, oldVersion, newVesion) {},
-      onOpen: (db) {},
-    );
-  }
-
-  createNote() async {
-    try {
-      final res = await ourDb.insert(
-        'notes',
-        {
-          "title": "buy milk",
-          "body": "buy 2 literes of cow milk and 1 litere of buffalo milk",
-          "createdAt": DateTime.now().toString(),
-        },
-      );
-      getNotes();
-      print(res);
-    } catch (e, s) {
-      print(e);
-    }
+  createNote({String? title, String? body}) async {
+    await DbService.createNote(title: title, body: body);
+    getNotes();
   }
 
   getNotes() async {
-    try {
-      final data = await ourDb.query('notes');
-      notes = data;
-      setState(() {});
-    } catch (e, s) {
-      print(e);
-    }
+    notes = await DbService.getNotes();
+    setState(() {});
   }
 
-  updateNote() {}
+  updateNote({String? title, String? body, required int noteId}) async {
+    await DbService.updateNote(noteId: noteId, body: body, title: title);
+    getNotes();
+  }
+
   deleteNote(int noteId) async {
-    print('deleting note: $noteId');
-    try {
-      await ourDb.delete("notes", where: 'id=?', whereArgs: [noteId]);
-      // await ourDb.rawDelete('DELETE FROM notes WHERE id=?', [noteId]);
-      getNotes();
-    } catch (e, s) {
-      print(e);
-    }
+    await DbService.deleteNote(noteId);
+    getNotes();
   }
 
   @override
@@ -100,6 +45,14 @@ CREATE TABLE IF NOT EXISTS notes(
     return Scaffold(
       appBar: AppBar(),
       body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        TextField(
+          controller: titleController,
+          decoration: InputDecoration(hintText: "Enter note title"),
+        ),
+        TextField(
+          controller: bodyController,
+          decoration: InputDecoration(hintText: "Enter note body"),
+        ),
         Row(
           children: [
             Expanded(
@@ -111,7 +64,14 @@ CREATE TABLE IF NOT EXISTS notes(
             ),
             Expanded(
               child: MaterialButton(
-                onPressed: createNote,
+                onPressed: () {
+                  if (titleController.text.isEmpty &&
+                      bodyController.text.isEmpty) {
+                    return;
+                  }
+                  createNote(
+                      title: titleController.text, body: bodyController.text);
+                },
                 color: Colors.red,
                 child: Text("Add note", style: TextStyle(color: Colors.white)),
               ),
@@ -123,38 +83,51 @@ CREATE TABLE IF NOT EXISTS notes(
             itemCount: notes.length,
             itemBuilder: (context, index) {
               final item = notes[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+
+              final createdAt =
+                  Jiffy(item['createdAt']).format("hh:mm, dd MMM yyyy");
+
+              return InkWell(
+                onDoubleTap: () {
+                  updateNote(
+                      title: "id ${item['id']}",
+                      body: "boddddddy",
+                      noteId: item['id']);
+                  getNotes();
+                },
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black26),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "${index + 1}. ${item['title']}",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              deleteNote(item['id']);
-                            },
-                            child: Icon(
-                              Icons.delete_outline,
-                              color: Colors.red,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${index + 1}. ${item['title']}",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                          )
-                        ],
-                      ),
-                      Text(item['body']),
-                      Text(item['createdAt']),
-                    ],
+                            InkWell(
+                              onTap: () {
+                                deleteNote(item['id']);
+                              },
+                              child: Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(item['body']),
+                        Text(createdAt),
+                      ],
+                    ),
                   ),
                 ),
               );

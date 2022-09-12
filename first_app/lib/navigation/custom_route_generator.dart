@@ -2,6 +2,7 @@ import 'package:first_app/screen/insta_post.dart';
 import 'package:first_app/screen/navigation_screen.dart';
 import 'package:first_app/screen/page_view_screen.dart';
 import 'package:first_app/screen/stful/login_form_screen.dart';
+import 'package:first_app/screen/stful/notes_screen.dart';
 import 'package:first_app/screen/stful/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,9 @@ Route customRouteGenerator(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => PageViewScreen());
     case Routes.nav:
       return MaterialPageRoute(builder: (_) => NavigationScreen());
+
+    case Routes.notesList:
+      return MaterialPageRoute(builder: (_) => NotesScreen());
     default:
       return MaterialPageRoute(builder: (_) => LoginScreen());
   }
