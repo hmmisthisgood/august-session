@@ -1,4 +1,4 @@
-package com.example.first_app
+package io.coolstore
 
 import io.flutter.embedding.android.FlutterActivity
 

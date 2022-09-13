@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "606154086503",
+    "project_id": "august-bw",
+    "storage_bucket": "august-bw.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606154086503:android:09bc4a8acfc70d99fedcc2",
+        "android_client_info": {
+          "package_name": "io.coolstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606154086503-02q8c6lvlljm555t3lk1v02u971gr0dd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.coolstore",
+            "certificate_hash": "5531500007a8a767b80742f15922da38f1ad0ee6"
+          }
+        },
+        {
+          "client_id": "606154086503-lbehqmllghq6el991r8pkcmqtsdi9u9h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqWTMyZTzUnNeHIEPzB3hBLyrD378dcVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606154086503-lbehqmllghq6el991r8pkcmqtsdi9u9h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

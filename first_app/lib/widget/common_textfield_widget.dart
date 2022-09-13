@@ -13,7 +13,7 @@ class CommonTextField extends StatelessWidget {
   final int? maxLength, maxLines;
   final bool? enabled;
   final bool readOnly;
-
+  final bool obscureText;
   const CommonTextField(
       {super.key,
       this.hintText,
@@ -26,9 +26,10 @@ class CommonTextField extends StatelessWidget {
       this.prefixIcon,
       this.suffixIcon,
       this.maxLength,
-      this.maxLines,
+      this.maxLines = 1,
       this.enabled,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.obscureText = false});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,6 +46,7 @@ class CommonTextField extends StatelessWidget {
               // enabled: false,
               maxLines: maxLines,
               readOnly: readOnly,
+              obscureText: obscureText,
               enabled: enabled,
               maxLength: maxLength,
               keyboardType: keyboardType,
