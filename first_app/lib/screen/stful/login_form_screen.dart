@@ -7,8 +7,11 @@ import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../widget/common_textfield_widget.dart';
+import "package:flutter_svg/flutter_svg.dart";
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -60,6 +63,62 @@ class _LoginScreen extends State {
     } catch (e, s) {
       print(e);
       print(s);
+    }
+  }
+
+  signInWithGoogle() async {
+    try {
+      await GoogleSignIn().signOut();
+
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser != null) {
+// Obtain the auth details from the request
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+
+        print(googleAuth.accessToken);
+        print(googleAuth.idToken);
+
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final creds =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        print(creds.toString());
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  signInWithFacebook() async {
+    final result = await FacebookAuth.instance.login();
+
+    if (result.status == LoginStatus.cancelled) {
+      Fluttertoast.showToast(msg: "Login Cancelled");
+    }
+
+    if (result.status == LoginStatus.failed) {
+      Fluttertoast.showToast(msg: result.message ?? "An error occurred");
+    }
+
+    if (result.status == LoginStatus.success) {
+      final AccessToken accessToken = result.accessToken!;
+
+      final credential = FacebookAuthProvider.credential(accessToken.token);
+
+      try {
+        final res =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        print(res.toString());
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -117,7 +176,42 @@ class _LoginScreen extends State {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => SignupScreen()));
                 },
-                child: Text("New Here? Sign Up"))
+                child: Text("New Here? Sign Up")),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: MaterialButton(
+                onPressed: signInWithGoogle,
+                color: Colors.red,
+                child: Row(children: [
+                  SvgPicture.asset('assets/icons/google.svg',
+                      height: 30, color: Colors.white),
+                  SizedBox(width: 20),
+                  Text(
+                    "Sign in With Google",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  )
+                ]),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: MaterialButton(
+                onPressed: signInWithFacebook,
+                color: Color(0xff4267B2),
+                child: Row(children: [
+                  Image.asset(
+                    'assets/icons/facebook.png',
+                    height: 30,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 20),
+                  Text(
+                    "Sign in With Favebook",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  )
+                ]),
+              ),
+            )
           ],
         ),
       ),
