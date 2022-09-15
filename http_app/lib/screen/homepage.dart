@@ -18,6 +18,7 @@ class _HomepageState extends State<Homepage> {
   List<Post> posts = [];
 
   bool isLoading = false;
+
   bool hasErrorOccurred = false;
   String errorMessage = "";
 //
