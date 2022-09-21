@@ -2,6 +2,10 @@
 // login = sign in : you already have account
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/cubit/auth/auth_cubit.dart';
+import 'package:first_app/cubit/auth/auth_state.dart';
+import 'package:first_app/screen/dashboard_screen.dart';
+import 'package:first_app/screen/insta_post.dart';
 import 'package:first_app/screen/stful/signup_screen.dart';
 import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +16,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../widget/common_textfield_widget.dart';
 import "package:flutter_svg/flutter_svg.dart";
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -37,89 +42,26 @@ class _LoginScreen extends State {
   }
 
   login() async {
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+    if (formKey.currentState != null) {
+      formKey.currentState!.save();
 
-      print(credential.toString());
+      bool isValid = formKey.currentState!.validate();
 
-      final currentUser = FirebaseAuth.instance.currentUser;
-
-      if (currentUser != null && currentUser.emailVerified == false) {
-        await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      if (isValid) {
+        FocusScope.of(context).unfocus();
+        context
+            .read<AuthCubit>()
+            .login(emailController.text, passwordController.text);
       }
-
-      Fluttertoast.showToast(msg: "Sign in successful");
-
-      SharedPref.setUserLoggedIn(true);
-
-      // FirebaseAuth.instance.signOut();
-
-    } on FirebaseAuthException catch (e, s) {
-      print(e);
-      print(s);
-
-      Fluttertoast.showToast(msg: e.message ?? "An error occurred");
-    } catch (e, s) {
-      print(e);
-      print(s);
     }
   }
 
   signInWithGoogle() async {
-    try {
-      await GoogleSignIn().signOut();
-
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      if (googleUser != null) {
-// Obtain the auth details from the request
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
-
-        print(googleAuth.accessToken);
-        print(googleAuth.idToken);
-
-        // Create a new credential
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-
-        final creds =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        print(creds.toString());
-      }
-    } catch (e) {
-      print(e);
-    }
+    context.read<AuthCubit>().signInWithGoogle();
   }
 
   signInWithFacebook() async {
-    final result = await FacebookAuth.instance.login();
-
-    if (result.status == LoginStatus.cancelled) {
-      Fluttertoast.showToast(msg: "Login Cancelled");
-    }
-
-    if (result.status == LoginStatus.failed) {
-      Fluttertoast.showToast(msg: result.message ?? "An error occurred");
-    }
-
-    if (result.status == LoginStatus.success) {
-      final AccessToken accessToken = result.accessToken!;
-
-      final credential = FacebookAuthProvider.credential(accessToken.token);
-
-      try {
-        final res =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        print(res.toString());
-      } catch (e) {
-        print(e);
-      }
-    }
+    context.read<AuthCubit>().signInWithFacebook();
   }
 
   @override
@@ -127,92 +69,114 @@ class _LoginScreen extends State {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(title: Text("login")),
-      body: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
-          children: [
-            CommonTextField(
-              controller: emailController,
-              label: "Email",
-              validator: EmailValidator(errorText: "Email must be valid"),
-            ),
-            CommonTextField(
-              controller: passwordController,
-              label: "Password",
-              hintText: "Enter your password",
-              obscureText: true,
-              validator: MultiValidator([
-                RequiredValidator(errorText: 'password is required'),
-                MinLengthValidator(8,
-                    errorText: 'password must be at least 6 digits long'),
-              ]),
-            ),
-            Text("Forgot Password"),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                minWidth: double.infinity,
-                onPressed: () async {
-                  if (formKey.currentState != null) {
-                    formKey.currentState!.save();
-
-                    bool isValid = formKey.currentState!.validate();
-
-                    if (isValid) {
-                      login();
-                    }
-                  }
-                },
-                color: Colors.blue,
-                child: Text(
-                  "SIGN IN",
-                  style: TextStyle(color: Colors.white, letterSpacing: 2),
-                ),
-              ),
-            ),
-            InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => SignupScreen()));
-                },
-                child: Text("New Here? Sign Up")),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: MaterialButton(
-                onPressed: signInWithGoogle,
-                color: Colors.red,
-                child: Row(children: [
-                  SvgPicture.asset('assets/icons/google.svg',
-                      height: 30, color: Colors.white),
-                  SizedBox(width: 20),
-                  Text(
-                    "Sign in With Google",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  )
-                ]),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: MaterialButton(
-                onPressed: signInWithFacebook,
-                color: Color(0xff4267B2),
-                child: Row(children: [
-                  Image.asset(
-                    'assets/icons/facebook.png',
-                    height: 30,
-                    color: Colors.white,
+      body: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is AuthSuccess) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => IgHomePage()));
+              }
+            },
+            builder: (context, state) {
+              print(state);
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      CommonTextField(
+                        controller: emailController,
+                        label: "Email",
+                        validator:
+                            EmailValidator(errorText: "Email must be valid"),
+                      ),
+                      CommonTextField(
+                        controller: passwordController,
+                        label: "Password",
+                        hintText: "Enter your password",
+                        obscureText: true,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'password is required'),
+                          MinLengthValidator(8,
+                              errorText:
+                                  'password must be at least 6 digits long'),
+                        ]),
+                      ),
+                      Text("Forgot Password"),
+                      IgnorePointer(
+                        ignoring: false,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                            minWidth: double.infinity,
+                            onPressed: login,
+                            color: Colors.blue,
+                            child: Text(
+                              "SIGN IN",
+                              style: TextStyle(
+                                  color: Colors.white, letterSpacing: 2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SignupScreen()));
+                          },
+                          child: Text("New Here? Sign Up")),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: MaterialButton(
+                          onPressed: signInWithGoogle,
+                          color: Colors.red,
+                          child: Row(children: [
+                            SvgPicture.asset('assets/icons/google.svg',
+                                height: 30, color: Colors.white),
+                            SizedBox(width: 20),
+                            Text(
+                              "Sign in With Google",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            )
+                          ]),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: MaterialButton(
+                          onPressed: signInWithFacebook,
+                          color: Color(0xff4267B2),
+                          child: Row(children: [
+                            Image.asset(
+                              'assets/icons/facebook.png',
+                              height: 30,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              "Sign in With Favebook",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            )
+                          ]),
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(width: 20),
-                  Text(
-                    "Sign in With Favebook",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  )
-                ]),
-              ),
-            )
-          ],
+                  if (state is AuthLoading)
+                    Container(
+                      color: Colors.black.withOpacity(0.6),
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -229,3 +193,5 @@ class _LoginScreen extends State {
 // InputDecoration
 
 /// GlobalKey
+
+/// IgnorePointer
