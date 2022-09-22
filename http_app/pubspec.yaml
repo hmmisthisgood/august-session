@@ -35,7 +35,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   fluttertoast: ^8.0.9
   pull_to_refresh: ^2.0.0
-
+  lazy_load_scrollview: 
+  
   # network and http
   http: 0.13.5
   dio:

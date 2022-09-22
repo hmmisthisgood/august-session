@@ -7,8 +7,6 @@ import 'package:http_app/screen/video_fetch_with_bloc.dart';
 import 'package:http_app/utils/env.dart';
 import 'package:http_app/utils/string_constants.dart';
 
-import 'screen/adv/value_l_screen.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -21,20 +19,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Env(
-      baseUrl: Str.baseUrl,
-      apiKey: Str.apiKey,
-      env: "prod",
+      baseUrl: "https://dev.pixabay.com/api/videos",
+      apiKey: "dev-api-key",
+      env: "dev",
       child: MultiBlocProvider(
         providers: [
           BlocProvider<VideoCubit>(create: (ctx) {
             return videCubit;
           }),
         ],
-        child: MaterialApp(home: ValueLScreen()
-            //  VideoFetchWithBloc(
-            //   text: "press",
-            // ),
-            ),
+        child: MaterialApp(
+          home: VideoFetchWithBloc(
+            text: "press",
+          ),
+        ),
       ),
     );
   }

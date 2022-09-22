@@ -9,7 +9,7 @@ class VideoRepository {
   Future<List<Video>> fetchVideos(
       {int currentPage = 1, int perPage = 5, String query = "cars"}) async {
     try {
-      final endpoint = "https://pixabay.com/api/videos";
+      final endpoint = Str.baseUrl;
 
       final response = await dio.get(endpoint, queryParameters: {
         "key": Str.apiKey,

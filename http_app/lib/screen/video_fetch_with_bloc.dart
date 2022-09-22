@@ -3,11 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http_app/bloc/video/video_state.dart';
 import 'package:http_app/bloc/video/vodeo_cubit.dart';
+import 'package:http_app/utils/env.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class VideoFetchWithBloc extends StatefulWidget {
-  const VideoFetchWithBloc({Key? key}) : super(key: key);
+import '../widget/video_fab.dart';
 
+class VideoFetchWithBloc extends StatefulWidget {
+  const VideoFetchWithBloc({Key? key, required this.text}) : super(key: key);
+  final String text;
   @override
   State<VideoFetchWithBloc> createState() => _VideoFetchWithBlocState();
 }
@@ -56,86 +59,95 @@ class _VideoFetchWithBlocState extends State<VideoFetchWithBloc> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // controller.animateTo(
-            //   0,
-            //   duration: Duration(milliseconds: 800),
-            //   curve: Curves.ease,
-            // );
-            controller.jumpTo(0);
-          },
-        ),
-        //  VideoFAB(),
-        body: Center(
-          child: BlocConsumer<VideoCubit, VideoState>(
-            listener: (context, state) {
-              if (state is VideoFetchSuccess) {
-                Fluttertoast.showToast(msg: "Videos fetched succss");
+    final envText = Env.of(context).env;
 
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (_) => Scaffold(
-                //               appBar: AppBar(),
-                //             )));
-              }
+    return Env(
+      baseUrl: "",
+      env: "hawa",
+      apiKey: "",
+      child: Scaffold(
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: () {
+          //     // controller.animateTo(
+          //     //   0,
+          //     //   duration: Duration(milliseconds: 800),
+          //     //   curve: Curves.ease,
+          //     // );
+          //     controller.jumpTo(0);
+          //   },
+          // ),
+          floatingActionButton: VideoFAB(
+            text: widget.text,
+          ),
+          body: Center(
+            child: BlocConsumer<VideoCubit, VideoState>(
+              listener: (context, state) {
+                if (state is VideoFetchSuccess) {
+                  Fluttertoast.showToast(msg: "Videos fetched succss");
 
-              if (state is VideoRefreshingError) {
-                Fluttertoast.showToast(msg: state.errorMessage);
-                refreshController.refreshFailed();
-              }
-              if (state is VideoRefreshSuccess) {
-                refreshController.refreshCompleted();
-              }
-            },
-            builder: (context, state) {
-              print(state);
-              if (state is VideoFetchLoading || state is VideoInitial) {
-                return CircularProgressIndicator();
-              }
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (_) => Scaffold(
+                  //               appBar: AppBar(),
+                  //             )));
+                }
 
-              if (state is VideoFetchError) {
-                return Text(state.errorMessage);
-              }
+                if (state is VideoRefreshingError) {
+                  Fluttertoast.showToast(msg: state.errorMessage);
+                  refreshController.refreshFailed();
+                }
+                if (state is VideoRefreshSuccess) {
+                  refreshController.refreshCompleted();
+                }
+              },
+              builder: (context, state) {
+                print(state);
+                if (state is VideoFetchLoading || state is VideoInitial) {
+                  return CircularProgressIndicator();
+                }
 
-              if (state is VideoFetchSuccess ||
-                  state is VideoLoadingMoreData ||
-                  state is VideoRefreshingState ||
-                  state is VideoRefreshingError ||
-                  state is VideoRefreshSuccess) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        onRefresh: onRefresh,
-                        child: ListView.builder(
-                          controller: controller,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: state.data.length,
-                          itemBuilder: (context, index) {
-                            final item = state.data[index];
-                            return Column(
-                              children: [
-                                Image.network(item.userImageUrl),
-                              ],
-                            );
-                          },
+                if (state is VideoFetchError) {
+                  return Text(state.errorMessage);
+                }
+
+                if (state is VideoFetchSuccess ||
+                    state is VideoLoadingMoreData ||
+                    state is VideoRefreshingState ||
+                    state is VideoRefreshingError ||
+                    state is VideoRefreshSuccess) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: SmartRefresher(
+                          controller: refreshController,
+                          onRefresh: onRefresh,
+                          child: ListView.builder(
+                            controller: controller,
+                            physics: BouncingScrollPhysics(),
+                            itemCount: state.data.length,
+                            itemBuilder: (context, index) {
+                              final item = state.data[index];
+                              return Column(
+                                children: [
+                                  Image.network(item.userImageUrl),
+                                ],
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    if (state is VideoLoadingMoreData)
-                      CircularProgressIndicator()
-                  ],
-                );
-              }
+                      if (state is VideoLoadingMoreData)
+                        CircularProgressIndicator()
+                    ],
+                  );
+                }
 
-              return Text("unknown strate");
-            },
-          ),
-        ));
+                return Text("unknown strate");
+              },
+            ),
+          )),
+    );
   }
 }
 

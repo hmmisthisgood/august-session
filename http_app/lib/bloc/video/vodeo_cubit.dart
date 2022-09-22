@@ -1,14 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_app/model/video.dart';
-import 'package:dio/dio.dart';
 import 'package:http_app/repository/video_repository.dart';
-import 'package:http_app/utils/string_constants.dart';
 import 'video_state.dart';
 
 class VideoCubit extends Cubit<VideoState> {
   VideoCubit() : super(VideoInitial());
 
-  final Dio dio = Dio(BaseOptions(receiveDataWhenStatusError: true));
   final VideoRepository _videoRepository = VideoRepository();
 
   int _currentPage = 1;

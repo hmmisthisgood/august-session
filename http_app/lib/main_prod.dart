@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_app/bloc/video/vodeo_cubit.dart';
+import 'package:http_app/screen/adv/value_l_screen.dart';
 
 // import 'screen/homepage.dart';
 import 'package:http_app/screen/video_fetch_with_bloc.dart';
 import 'package:http_app/utils/env.dart';
 import 'package:http_app/utils/string_constants.dart';
-
-import 'screen/adv/value_l_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,11 +29,7 @@ class MyApp extends StatelessWidget {
             return videCubit;
           }),
         ],
-        child: MaterialApp(home: ValueLScreen()
-            //  VideoFetchWithBloc(
-            //   text: "press",
-            // ),
-            ),
+        child: MaterialApp(home: ValueLScreen()),
       ),
     );
   }
