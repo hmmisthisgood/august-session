@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 /// ValutListanableBuilder
 /// StreamBuilder
@@ -44,10 +42,10 @@ class ValueLScreen extends StatelessWidget {
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-          builder: (context, value, child) {
+          builder: (context, value, someother) {
             return Stack(
               children: [
-                if (child != null) child,
+                if (someother != null) someother,
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -77,3 +75,7 @@ class ValueLScreen extends StatelessWidget {
 
 /// ValueListanableBuilder: widget
 /// ValueNotifier : Data type
+
+
+/// FutureBuilder
+/// StreamBuilder
