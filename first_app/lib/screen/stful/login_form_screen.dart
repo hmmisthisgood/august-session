@@ -4,9 +4,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/cubit/auth/auth_cubit.dart';
 import 'package:first_app/cubit/auth/auth_state.dart';
+import 'package:first_app/cubit/theme/theme_cubit.dart';
 import 'package:first_app/screen/dashboard_screen.dart';
 import 'package:first_app/screen/insta_post.dart';
 import 'package:first_app/screen/stful/signup_screen.dart';
+import 'package:first_app/util/functions.dart';
 import 'package:first_app/util/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,6 +44,11 @@ class _LoginScreen extends State {
   }
 
   login() async {
+    final currentTheme = Theme.of(context);
+    bool isDarkMode = UtilFunction.isDarkMode(currentTheme);
+
+    context.read<ThemeCubit>().toggleTheme(isDarkMode);
+
     if (formKey.currentState != null) {
       formKey.currentState!.save();
 
@@ -66,6 +73,8 @@ class _LoginScreen extends State {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Theme.of(context);
+
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(title: Text("login")),
@@ -76,7 +85,7 @@ class _LoginScreen extends State {
           child: BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => IgHomePage()));
               }
             },

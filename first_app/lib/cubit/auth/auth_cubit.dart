@@ -70,6 +70,7 @@ class AuthCubit extends Cubit<AuthState> {
         final creds =
             await FirebaseAuth.instance.signInWithCredential(credential);
         print(creds.toString());
+        emit(AuthSuccess(user: creds));
       }
     } catch (e) {
       print(e);
@@ -101,6 +102,7 @@ class AuthCubit extends Cubit<AuthState> {
         final res =
             await FirebaseAuth.instance.signInWithCredential(credential);
         print(res.toString());
+        emit(AuthSuccess(user: res));
       } catch (e) {
         print(e);
       }
