@@ -10,7 +10,10 @@ class LottieScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Column(children: [
         Lottie.asset("assets/animations/car.json"),
-        Lottie.asset("assets/animations/data.json", height: 200),
+        Lottie.asset(
+          "assets/animations/data.json",
+          height: 200,
+        ),
       ]),
     );
   }

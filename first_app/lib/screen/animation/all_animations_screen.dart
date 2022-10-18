@@ -1,6 +1,8 @@
 import 'package:first_app/screen/animation/lottie_screen.dart';
+import 'package:first_app/screen/animation/transform_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'animated_continaer.dart';
 import 'hero_1.dart';
 
 class AllAnimationsScreen extends StatelessWidget {
@@ -14,6 +16,14 @@ class AllAnimationsScreen extends StatelessWidget {
     {
       "title": "Lottie Animation",
       "widget": LottieScreen(),
+    },
+    {
+      "title": "Animation Container",
+      "widget": AnimContainerScreen(),
+    },
+    {
+      "title": "Transform Screen",
+      "widget": TransformSCreen(),
     }
   ];
 
@@ -46,3 +56,34 @@ class AllAnimationsScreen extends StatelessWidget {
 /// Hero Animation
 
 /// Lottie Animation : lottie package
+
+
+/// Animations: 
+/// - Implicit 
+/// - Explicit
+
+/// Implicit:(Mostly animated versions of widgets)
+/// - AnimatedContainer
+/// - AnimatedIcon
+/// - AnimatedPositioned
+/// - AnimatedOpacity
+/// - AnimatedSwitcher
+/// - AnimatedAlign
+/// - AnimatedScale
+
+
+/// - Transform
+
+/// AnimatedWidget 
+/// AnimatedBuilder
+
+/// SlideTransition
+/// FadeTransition
+/// ScaleTransition
+
+
+/// AnimationContoller
+/// Tween 
+/// Curves
+/// Duration
+
