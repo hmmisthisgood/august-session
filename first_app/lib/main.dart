@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'navigation/custom_route_generator.dart';
 import 'navigation/routes.dart';
+import 'screen/animation/all_animations_screen.dart';
 import 'util/custom_theme.dart';
 
 // import 'package:first_app/screen/homepage.dart';
@@ -39,8 +40,8 @@ class OurApp extends StatelessWidget {
 
             themeMode: state,
             onGenerateRoute: customRouteGenerator,
-            // home: NotesScreen(),
-            initialRoute: Routes.login,
+            home: AllAnimationsScreen(),
+            // initialRoute: Routes.login,
           );
         },
       ),
