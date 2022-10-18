@@ -1,3 +1,4 @@
+import 'package:first_app/screen/animation/lottie_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'hero_1.dart';
@@ -9,6 +10,10 @@ class AllAnimationsScreen extends StatelessWidget {
     {
       "title": "Hero Animation",
       "widget": Hero1(),
+    },
+    {
+      "title": "Lottie Animation",
+      "widget": LottieScreen(),
     }
   ];
 
@@ -41,4 +46,3 @@ class AllAnimationsScreen extends StatelessWidget {
 /// Hero Animation
 
 /// Lottie Animation : lottie package
-/// 
