@@ -2,6 +2,7 @@ import 'package:first_app/screen/animation/lottie_screen.dart';
 import 'package:first_app/screen/animation/transform_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'animated_builder_screen.dart';
 import 'animated_continaer.dart';
 import 'hero_1.dart';
 
@@ -24,6 +25,10 @@ class AllAnimationsScreen extends StatelessWidget {
     {
       "title": "Transform Screen",
       "widget": TransformSCreen(),
+    },
+    {
+      "title": "Animated Builder & Transform Screen",
+      "widget": ABuilderScreen(),
     }
   ];
 
