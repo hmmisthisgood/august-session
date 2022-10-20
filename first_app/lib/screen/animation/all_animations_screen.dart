@@ -1,7 +1,10 @@
+import 'package:first_app/navigation/scale_route.dart';
+import 'package:first_app/navigation/vertical_route.dart';
 import 'package:first_app/screen/animation/lottie_screen.dart';
 import 'package:first_app/screen/animation/transform_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../navigation/fade_route.dart';
 import 'animated_builder_screen.dart';
 import 'animated_continaer.dart';
 import 'hero_1.dart';
@@ -42,8 +45,12 @@ class AllAnimationsScreen extends StatelessWidget {
 
           return MaterialButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => screen['widget']));
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (_) => screen['widget']));
+              // Navigator.push(
+              //     context, CustomRoute.leftToRight(target: screen['widget']));
+              Navigator.push(context, leftToRight(target: screen['widget']));
+              Navigator.push(context, ScaleRoute(target: screen['widget']));
             },
             color: Colors.red,
             child: Text(
