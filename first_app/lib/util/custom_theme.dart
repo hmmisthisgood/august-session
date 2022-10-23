@@ -10,6 +10,7 @@ class CustomTheme {
     fontFamily: "Oswald",
     // iconTheme: IconThemeData(color: Colors.white),
     dividerColor: Colors.white,
+
     textTheme: TextTheme(
       headline1: TextStyle(
           fontSize: 24, color: darkThemeTextColor, fontWeight: FontWeight.bold),

@@ -4,9 +4,12 @@ import 'package:first_app/screen/animation/lottie_screen.dart';
 import 'package:first_app/screen/animation/transform_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../custom_paint/my_custom_painter.dart';
 import '../../navigation/fade_route.dart';
 import 'animated_builder_screen.dart';
 import 'animated_continaer.dart';
+import 'custom_clip_screen.dart';
+import 'custom_painter_screen.dart';
 import 'hero_1.dart';
 
 class AllAnimationsScreen extends StatelessWidget {
@@ -32,6 +35,14 @@ class AllAnimationsScreen extends StatelessWidget {
     {
       "title": "Animated Builder & Transform Screen",
       "widget": ABuilderScreen(),
+    },
+    {
+      "title": "Custom Clipper",
+      "widget": CustomClipScreen(),
+    },
+    {
+      "title": "Custom Painter",
+      "widget": CustomPaintScreen(),
     }
   ];
 

@@ -17,6 +17,7 @@ dependencies:
   fluttertoast: ^8.0.9
   flutter_svg: ^1.1.5
   lottie: ^1.4.3
+  flutter_custom_clippers: ^2.0.0
 
   # data persistence
   shared_preferences: ^2.0.15
