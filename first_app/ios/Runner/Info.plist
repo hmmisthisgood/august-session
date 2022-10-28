@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+
+   <!-- ios permissions stuff -->
+	<key>NSCameraUsageDescription</key>
+	<string>App requirees camera permission so that users can take their photos.</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requirees camera permission so that users can take their photos.</string>
+
+
+
+
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 

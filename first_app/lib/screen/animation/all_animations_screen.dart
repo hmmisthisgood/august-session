@@ -2,7 +2,9 @@ import 'package:first_app/navigation/scale_route.dart';
 import 'package:first_app/navigation/vertical_route.dart';
 import 'package:first_app/screen/animation/lottie_screen.dart';
 import 'package:first_app/screen/animation/transform_screen.dart';
+import 'package:first_app/util/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../custom_paint/my_custom_painter.dart';
 import '../../navigation/fade_route.dart';
@@ -60,8 +62,11 @@ class AllAnimationsScreen extends StatelessWidget {
               //     context, MaterialPageRoute(builder: (_) => screen['widget']));
               // Navigator.push(
               //     context, CustomRoute.leftToRight(target: screen['widget']));
-              Navigator.push(context, leftToRight(target: screen['widget']));
+              // Navigator.push(context, leftToRight(target: screen['widget']));
               Navigator.push(context, ScaleRoute(target: screen['widget']));
+
+              UtilFunction.handlePermissions(
+                  serviceName: Permission.microphone);
             },
             color: Colors.red,
             child: Text(
